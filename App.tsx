@@ -1,12 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { ThemeProvider } from '@shopify/restyle';
+import 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
+import Onboarding from './src/Onboarding';
+import { darkTheme, theme } from './src/theme';
+
+const darkMode = false;
+
+const AuthenticationStack = createStackNavigator();
+const AuthenticationNavigator = () => (
+  <AuthenticationStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
+  </AuthenticationStack.Navigator>
+);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={darkMode ? darkTheme : theme}>
+      <NavigationContainer>
+        <AuthenticationNavigator />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
 
