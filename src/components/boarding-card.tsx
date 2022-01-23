@@ -14,8 +14,8 @@ const SLIDE_HEIGHT = 0.81 * height;
 
 interface BoardingCardProps {
   board: {
-    id: string;
     title: string;
+    subtitle: string;
     description: string;
     url: string;
   };

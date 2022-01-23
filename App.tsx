@@ -3,8 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from '@shopify/restyle';
 import 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
-import Onboarding from './src/Onboarding';
 import { darkTheme, theme } from './src/theme';
+import Welcome from './src/screens/welcome';
+import Onboarding from './src/screens/onboarding';
 
 const darkMode = false;
 
@@ -16,6 +17,7 @@ const AuthenticationNavigator = () => (
     }}
   >
     <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
+    <AuthenticationStack.Screen name="Welcome" component={Welcome} />
   </AuthenticationStack.Navigator>
 );
 

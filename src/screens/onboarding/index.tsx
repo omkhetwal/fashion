@@ -7,12 +7,13 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import BoardingCard from './components/boarding-card';
-import Button from './components/button';
-import Dot from './components/dot';
-import { BOARDING_DATA } from './constants';
-import { Box, Text } from './theme';
-import { palette } from './theme/colors';
+import BoardingCard from '../../components/boarding-card';
+import Button from '../../components/button';
+import Dot from '../../components/dot';
+import { BOARDING_DATA } from '../../constants';
+import { Box } from '../../theme';
+import { palette } from '../../theme/colors';
+import { Routes, StackNavigatorProps } from '../../types';
 
 const { width: PAGE_WIDTH, height } = Dimensions.get('window');
 
@@ -23,7 +24,9 @@ const BOARDING_BACKGROUND_COLOR = {
   3: palette.fuchsia300,
 };
 
-const Onboarding = () => {
+const Onboarding = ({
+  navigation,
+}: StackNavigatorProps<Routes, 'Onboarding'>) => {
   const translateX = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -98,7 +101,11 @@ const Onboarding = () => {
               );
             })}
           </View>
-          <Button variant="secondary" text="Next" onPress={onIconPress} />
+          <Button
+            variant="secondary"
+            text={activeIndex.value === 3 ? "Let's get started" : 'Next'}
+            onPress={() => navigation.navigate('Welcome')}
+          />
         </Box>
       </View>
     </View>
