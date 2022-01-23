@@ -1,26 +1,30 @@
-export const BOARDING_DATA = [
+export const SLIDES = [
   {
-    id: 'abc',
     title: 'Relaxed',
-    description: '',
-    url: 'https://res.cloudinary.com/dooxt2sgs/image/upload/v1642841299/images/fashion/Revelry-Kids-Product-featherandtwine-65_websize__90025.1637257185_Phone_xgsg7t.jpg',
+    subtitle: 'Find Your Outfits',
+    description:
+      "Confused about your outfit? Don't worry! Find the best outfit here!",
+    color: '#BFEAF5',
   },
   {
-    id: 'def',
     title: 'Playful',
-    description: '',
-    url: 'https://res.cloudinary.com/dooxt2sgs/image/upload/v1642841300/images/fashion/Revelry-Kids-Product-featherandtwine-195_websize__23902.1636992355_Phone_j6klwq.jpg',
+    subtitle: 'Hear it First, Wear it First',
+    description:
+      'Hating the clothes in your wardrobe? Explore hundreds of outfits ideas',
+    color: '#BEECC4',
   },
   {
-    id: 'mno',
-    title: 'Ecentric',
-    description: '',
-    url: 'https://res.cloudinary.com/dooxt2sgs/image/upload/v1642841299/images/fashion/Revelry-Kids-Product-featherandtwine-72_websize__78260.1636993509_Phone_seii28.jpg',
+    title: 'Eccentric',
+    subtitle: 'Your Style, Your Way',
+    description:
+      'Create your individual & unique style and look amazing everyday',
+    color: '#FFE4D9',
   },
   {
-    id: 'jkl',
     title: 'Funky',
-    description: '',
-    url: 'https://res.cloudinary.com/dooxt2sgs/image/upload/v1642841299/images/fashion/Revelry-Kids-Product-featherandtwine-329_websize__59938.1637257169_Phone_ahjdpj.jpg',
+    subtitle: 'Look Good, Feel Good',
+    description:
+      'Discover the latest trends in fashion and explore your personality',
+    color: '#FFDDDD',
   },
 ];

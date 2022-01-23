@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
+    "paths": {
+      "@/*": ["src/*/index", "src/*"]
+    } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
   }
 }

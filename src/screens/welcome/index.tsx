@@ -8,7 +8,7 @@ const Welcome = () => {
       <Box
         flex={1}
         borderBottomRightRadius={'xl'}
-        backgroundColor={'amber100'}
+        backgroundColor={'amber300'}
         alignItems={'center'}
         justifyContent={'center'}
         padding={'xl'}

@@ -97,7 +97,8 @@ export const textVariants = {
     color: 'black',
   },
   hero: {
-    fontSize: 72,
+    fontSize: 80,
+    lineHeight: 80,
     color: 'white',
     textAlign: 'center',
   },

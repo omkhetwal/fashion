@@ -1,130 +1,134 @@
-import React, { useCallback } from 'react';
-import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { SLIDES } from '@/constants';
+import { Box, makeStyles, theme, Theme } from '@/theme';
+import { StackNavigatorProps } from '@/types';
+import React, { useRef } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Animated, {
-  useAnimatedRef,
+  interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import BoardingCard from '../../components/boarding-card';
-import Button from '../../components/button';
-import Dot from '../../components/dot';
-import { BOARDING_DATA } from '../../constants';
-import { Box } from '../../theme';
-import { palette } from '../../theme/colors';
-import { Routes, StackNavigatorProps } from '../../types';
+import Slide from './components/slide';
+import SubSlide from './components/sub-slide';
 
-const { width: PAGE_WIDTH, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.white,
+  },
+  slider: {
+    height: 0.61 * height,
+    borderBottomEndRadius: theme.borderRadii.xxxl,
+  },
+  footer: {
+    flex: 1,
+  },
+  footerContent: {
+    flex: 1,
+    backgroundColor: theme.colors.white,
+    borderTopLeftRadius: theme.borderRadii.xxxl,
+  },
+  pagination: {
+    ...StyleSheet.absoluteFillObject,
+    height: theme.borderRadii.xl,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));
 
-const BOARDING_BACKGROUND_COLOR = {
-  0: palette.amber300,
-  1: palette.blu300,
-  2: palette.pink300,
-  3: palette.fuchsia300,
-};
+// TODO ts
 
-const Onboarding = ({
-  navigation,
-}: StackNavigatorProps<Routes, 'Onboarding'>) => {
+const OnBoarding = ({ navigation }: { navigation: any }) => {
   const translateX = useSharedValue(0);
+  const styles = useStyles();
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      translateX.value = event.contentOffset.x;
+  const scrollRef = useRef<Animated.ScrollView>(null);
+
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset }) => {
+      translateX.value = contentOffset.x;
     },
   });
 
-  const activeIndex = useDerivedValue(() => {
-    return Math.round(translateX.value / PAGE_WIDTH);
-  });
+  const backgroundColor = useDerivedValue(() =>
+    interpolateColor(
+      translateX.value,
+      SLIDES.map((_, i) => i * width),
+      SLIDES.map((slide) => slide.color)
+    )
+  );
 
-  const activeCardRadiusBackground = useAnimatedStyle(() => {
-    // @ts-ignore
-    const color = BOARDING_BACKGROUND_COLOR[activeIndex.value];
-    return {
-      backgroundColor: color,
-    };
-  });
+  const slider = useAnimatedStyle(() => ({
+    backgroundColor: backgroundColor.value,
+  }));
 
-  const scrollRef = useAnimatedRef<ScrollView>();
-
-  const onIconPress = useCallback(() => {
-    if (activeIndex.value === BOARDING_DATA.length - 1) return;
-    scrollRef.current?.scrollTo({ x: PAGE_WIDTH * (activeIndex.value + 1) });
-  }, []);
+  const footerStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -translateX.value }],
+  }));
 
   return (
     <View style={styles.container}>
-      <Box height={0.81 * height} backgroundColor={'black'}>
+      <Animated.View style={[styles.slider, slider]}>
         <Animated.ScrollView
-          ref={scrollRef as any}
-          onScroll={scrollHandler}
-          style={{ flex: 1 }}
-          scrollEventThrottle={16}
+          ref={scrollRef}
           horizontal
-          pagingEnabled
+          snapToInterval={width}
           showsHorizontalScrollIndicator={false}
+          decelerationRate="fast"
+          onScroll={onScroll}
           bounces={false}
+          scrollEventThrottle={16}
         >
-          {BOARDING_DATA.map((board, index) => (
-            <BoardingCard
-              board={board}
-              index={index}
-              key={board.id}
-              translateX={translateX}
-              activeIndex={activeIndex.value}
-            />
+          {SLIDES.map((data, index) => (
+            <Slide key={data.title} right={!!(index & 1)} title={data.title} />
           ))}
         </Animated.ScrollView>
-      </Box>
+      </Animated.View>
       <View style={styles.footer}>
-        <Animated.View
-          style={[
-            {
-              ...StyleSheet.absoluteFillObject,
-            },
-            activeCardRadiusBackground,
-          ]}
-        ></Animated.View>
-        <Box
-          flex={1}
-          backgroundColor={'white'}
-          alignItems={'center'}
-          borderTopLeftRadius={'xl'}
-          paddingBottom={'m'}
-        >
-          <View style={[styles.fillCenter, { flexDirection: 'row' }]}>
-            {BOARDING_DATA.map((_, index) => {
+        <Animated.View style={[StyleSheet.absoluteFill, slider]} />
+        <Box style={styles.footerContent}>
+          <Animated.View
+            style={[
+              {
+                flex: 1,
+                flexDirection: 'row',
+                width: width * SLIDES.length,
+              },
+              footerStyle,
+            ]}
+          >
+            {SLIDES.map(({ subtitle, description }, index) => {
+              const last = index === SLIDES.length - 1;
+
               return (
-                <Dot key={_.id} index={index} activeDotIndex={activeIndex} />
+                <SubSlide
+                  key={index}
+                  subtitle={subtitle}
+                  description={description}
+                  last={last}
+                  onPress={() => {
+                    if (last) {
+                      navigation.navigate('Welcome');
+                    } else {
+                      // @ts-ignore
+                      scrollRef.current?.scrollTo({
+                        x: width * (index + 1),
+                        animated: true,
+                      });
+                    }
+                  }}
+                />
               );
             })}
-          </View>
-          <Button
-            variant="secondary"
-            text={activeIndex.value === 3 ? "Let's get started" : 'Next'}
-            onPress={() => navigation.navigate('Welcome')}
-          />
+          </Animated.View>
         </Box>
       </View>
     </View>
   );
 };
 
-export default Onboarding;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  footer: {
-    flex: 1,
-  },
-  fillCenter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default OnBoarding;

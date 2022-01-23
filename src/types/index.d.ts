@@ -13,3 +13,12 @@ export interface StackNavigatorProps<
   navigation: StackNavigationProp<ParamList, RouteName>;
   route: RouteProp<ParamList, RouteName>;
 }
+
+export type AuthRoutes = {
+  Onboarding: undefined;
+  Welcome: undefined;
+  Login: undefined;
+  SignUp: undefined;
+  ForgotPassword: undefined;
+  PasswordChanged: undefined;
+};

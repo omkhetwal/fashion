@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import { darkTheme, theme } from './src/theme';
 import Welcome from './src/screens/welcome';
 import Onboarding from './src/screens/onboarding';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const darkMode = false;
 

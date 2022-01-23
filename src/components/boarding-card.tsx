@@ -59,7 +59,7 @@ const BoardingCard = ({
 
   return (
     <Box
-      backgroundColor={'white'}
+      backgroundColor={'sky400'}
       width={width}
       alignItems={'center'}
       justifyContent={'flex-start'}
@@ -70,7 +70,7 @@ const BoardingCard = ({
         // @ts-ignore
         backgroundColor={BOARDING_BACKGROUND_COLOR[index]}
         paddingTop={'l'}
-        borderBottomEndRadius={'xxxl'}
+        borderBottomEndRadius={'xl'}
         alignItems={'center'}
         justifyContent={'flex-start'}
       >
