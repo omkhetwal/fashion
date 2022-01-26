@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export type Routes = {
   Onboarding: undefined;
   Welcome: undefined;
+  Login: undefined;
 };
 
 export interface StackNavigatorProps<

@@ -7,6 +7,7 @@ import { darkTheme, theme } from './src/theme';
 import Welcome from './src/screens/welcome';
 import Onboarding from './src/screens/onboarding';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Login from '@/screens/authentication/login';
 
 const darkMode = false;
 
@@ -19,6 +20,7 @@ const AuthenticationNavigator = () => (
   >
     <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
     <AuthenticationStack.Screen name="Welcome" component={Welcome} />
+    <AuthenticationStack.Screen name="Login" component={Login} />
   </AuthenticationStack.Navigator>
 );
 

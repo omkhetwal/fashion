@@ -1,8 +1,9 @@
+import Button from '@/components/button';
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Box } from '../../theme';
 
-const Welcome = () => {
+const Welcome = ({ navigation }: { navigation: any }) => {
   return (
     <Box flex={1}>
       <Box
@@ -21,7 +22,13 @@ const Welcome = () => {
           }}
         />
       </Box>
-      <Box flex={1} borderTopLeftRadius={'xl'}></Box>
+      <Box flex={1} borderTopLeftRadius={'xl'}>
+        <Button
+          variant="secondary"
+          text="Login"
+          onPress={() => navigation.navigate('Login')}
+        />
+      </Box>
     </Box>
   );
 };
